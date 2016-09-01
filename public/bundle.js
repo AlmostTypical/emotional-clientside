@@ -21470,14 +21470,17 @@
 	var App = React.createClass({
 	  displayName: 'App',
 
-	  getData: function getData() {
-	    console.log('calling for data');
-	    axios.get('http://localhost:9002/api/dummy').then(function (response) {
-	      console.log(response);
-	    }).catch(function (error) {
-	      console.log(error);
-	    });
-	  },
+	  // getData: function () {
+	  //   console.log('calling for data');
+	  //   axios.get('http://localhost:9002/api/dummy')
+	  //   // axios.get('http://localhost:9002/api/personify/tweets/AlmostTopical')
+	  //     .then(function (response) {
+	  //       console.log(response)
+	  //     })
+	  //     .catch(function (error) {
+	  //       console.log(error)
+	  //     });
+	  // },
 	  render: function render() {
 	    return React.createElement(
 	      'div',
