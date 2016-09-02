@@ -5,14 +5,23 @@ import actions from '../src/actions/actions';
 
 const App = React.createClass({
   render: function () {
-    console.log(this.props)
+    if (this.props.loaded === true) {
+      let tweetData = {};
+      tweetData.bigFive = this.props.data.data.tree.children[0].children[0].children;
+      tweetData.needs = this.props.data.data.tree.children[1].children[0].children;
+      tweetData.values = this.props.data.data.tree.children[2].children[0].children;
+      console.log(tweetData);
+    }
     return (
       <div>
-        <h1>Hello World!</h1>
+        <h1>Twitter Personality Analysis</h1>
         <form>
-          <input type="text" onChange={this.props.handleUserEntry} required value="Type Twitter handle here..." />
-          <input type="submit" onClick={this.props.handleSubmit} value="Retrieve analysis"/>
+          <input type="text" onChange={this.props.handleUserEntry} />
         </form>
+        <button onClick={this.props.handleSubmit}>Get Data Analysis</button>
+        <div>
+
+        </div>
       </div>
     )
   }
@@ -24,9 +33,8 @@ const mapDispatchToProps = function (dispatch) {
       var user = e.target.value;
       dispatch(actions.storeUser(user))
     },
-    handleSubmit: function (e) {
-      e.preventDefault();
-      dispatch(actions.dataRequest('http://localhost:9002/api/dummy'))
+    handleSubmit: function (user) {
+      dispatch(actions.dataRequest('http://localhost:9002/api/personify/tweets/'+ user))
     }
   }
 };
@@ -34,7 +42,8 @@ const mapDispatchToProps = function (dispatch) {
 const mapStateToProps = function (state) {
   return {
     data: state.data,
-    user: state.user
+    user: state.user,
+    loaded: state.loaded
   }
 };
 

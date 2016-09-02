@@ -21512,21 +21512,32 @@
 	  displayName: 'App',
 
 	  render: function render() {
-	    console.log(this.props);
+	    if (this.props.loaded === true) {
+	      var tweetData = {};
+	      tweetData.bigFive = this.props.data.data.tree.children[0].children[0].children;
+	      tweetData.needs = this.props.data.data.tree.children[1].children[0].children;
+	      tweetData.values = this.props.data.data.tree.children[2].children[0].children;
+	      console.log(tweetData);
+	    }
 	    return _react2.default.createElement(
 	      'div',
 	      null,
 	      _react2.default.createElement(
 	        'h1',
 	        null,
-	        'Hello World!'
+	        'Twitter Personality Analysis'
 	      ),
 	      _react2.default.createElement(
 	        'form',
 	        null,
-	        _react2.default.createElement('input', { type: 'text', onChange: this.props.handleUserEntry, required: true, value: 'Type Twitter handle here...' }),
-	        _react2.default.createElement('input', { type: 'submit', onClick: this.props.handleSubmit, value: 'Retrieve analysis' })
-	      )
+	        _react2.default.createElement('input', { type: 'text', onChange: this.props.handleUserEntry })
+	      ),
+	      _react2.default.createElement(
+	        'button',
+	        { onClick: this.props.handleSubmit },
+	        'Get Data Analysis'
+	      ),
+	      _react2.default.createElement('div', null)
 	    );
 	  }
 	});
@@ -21537,9 +21548,8 @@
 	      var user = e.target.value;
 	      dispatch(_actions2.default.storeUser(user));
 	    },
-	    handleSubmit: function handleSubmit(e) {
-	      e.preventDefault();
-	      dispatch(_actions2.default.dataRequest('http://localhost:9002/api/dummy'));
+	    handleSubmit: function handleSubmit(user) {
+	      dispatch(_actions2.default.dataRequest('http://localhost:9002/api/personify/tweets/' + user));
 	    }
 	  };
 	};
@@ -21547,7 +21557,8 @@
 	var mapStateToProps = function mapStateToProps(state) {
 	  return {
 	    data: state.data,
-	    user: state.user
+	    user: state.user,
+	    loaded: state.loaded
 	  };
 	};
 
@@ -24560,7 +24571,8 @@
 	  data: {},
 	  user: '',
 	  isLoading: false,
-	  error: false
+	  error: false,
+	  loaded: false
 	};
 
 	var reducer = function reducer(initialState, action) {
@@ -24575,17 +24587,17 @@
 	    case types.REQUESTED_DATA:
 	      newState = Object.assign({}, initialState, {
 	        isLoading: true,
-	        error: false
+	        error: false,
+	        loaded: false
 	      });
-	      console.log(newState);
 	      break;
 	    case types.RECEIVED_DATA:
 	      newState = Object.assign({}, initialState, {
 	        isLoading: false,
 	        error: false,
-	        data: action.data
+	        data: action.data,
+	        loaded: true
 	      });
-	      console.log(newState);
 	      break;
 	    case types.RECEIVED_ERROR:
 	      newState = Object.assign({}, initialState, {

@@ -4,7 +4,8 @@ let originalState = {
   data: {},
   user: '',
   isLoading: false,
-  error: false
+  error: false,
+  loaded: false
 };
 
 const reducer = function (initialState, action) {
@@ -19,17 +20,17 @@ const reducer = function (initialState, action) {
     case types.REQUESTED_DATA:
       newState = Object.assign({}, initialState, {
         isLoading: true,
-        error: false
+        error: false,
+        loaded: false
       });
-      console.log(newState);
       break;
     case types.RECEIVED_DATA:
       newState = Object.assign({}, initialState, {
         isLoading: false,
         error: false,
-        data: action.data
+        data: action.data,
+        loaded: true
       });
-      console.log(newState);
       break;
     case types.RECEIVED_ERROR:
       newState = Object.assign({}, initialState, {
