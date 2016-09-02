@@ -1,1 +1,4 @@
-export const GET_DATA = "GET_DATA";
+export const STORE_USER = "STORE_USER";
+export const REQUESTED_DATA = "REQUESTED_DATA";
+export const RECEIVED_DATA = "RECEIVED_DATA";
+export const RECEIVED_ERROR = "RECEIVED_ERROR";
